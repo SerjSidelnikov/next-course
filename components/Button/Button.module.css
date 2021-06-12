@@ -1,0 +1,58 @@
+.button {
+  display: inline-grid;
+  align-items: center;
+
+  padding: 10px;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 5px;
+
+  font-size: 14px;
+  grid-auto-flow: column;
+  grid-gap: 10px;
+}
+
+.primary {
+  transition: 250ms ease;
+
+  color: var(--white);
+  background-color: var(--primary);
+}
+
+.primary svg {
+  transition: 250ms ease;
+  fill: var(--white);
+}
+
+.primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.ghost {
+  transition: 250ms ease;
+
+  color: var(--black);
+  border: 1px solid var(--gray-light);
+  background: none;
+}
+
+.ghost svg {
+  transition: 250ms ease;
+  fill: var(--black);
+}
+
+.ghost:hover {
+  color: var(--white);
+  border-color: var(--white);
+  background-color: var(--primary);
+}
+
+.ghost:hover svg {
+  fill: var(--white);
+}
+
+.down {
+  transform: rotate(90deg);
+}
