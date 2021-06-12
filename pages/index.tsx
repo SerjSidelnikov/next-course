@@ -1,6 +1,7 @@
 import Button from '../components/Button';
 import Htag from '../components/Htag';
 import P from '../components/P';
+import Tag from '../components/Tag';
 
 export default function Home(): JSX.Element {
   return (
@@ -30,6 +31,18 @@ export default function Home(): JSX.Element {
         alias consequatur veritatis, soluta et est laboriosam unde, quibusdam ab commodi a explicabo
         placeat necessitatibus aliquam recusandae qui!
       </P>
+
+      <Tag size="s" href="/photoshop" target="_blank">
+        Photoshop
+      </Tag>
+      <Tag size="s" color="green">
+        -10 000 ₽
+      </Tag>
+      <Tag color="grey">10</Tag>
+      <Tag color="red">hh.ru</Tag>
+      <Tag color="primary" size="s">
+        Работа в Photoshop
+      </Tag>
     </div>
   );
 }
