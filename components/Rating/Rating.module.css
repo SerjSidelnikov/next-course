@@ -1,0 +1,13 @@
+.rating {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-gap: 5px;
+}
+
+.editable {
+  cursor: pointer;
+}
+
+.filled {
+  fill: var(--primary);
+}
