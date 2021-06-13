@@ -4,12 +4,13 @@ import Htag from '../components/Htag';
 import P from '../components/P';
 import Tag from '../components/Tag';
 import Rating from '../components/Rating';
+import Layout from '../layout';
 
 export default function Home(): JSX.Element {
   const [rating, setRating] = React.useState<number>(4);
 
   return (
-    <div style={{ padding: 20 }}>
+    <Layout>
       <Htag tag="h1">Title</Htag>
       <Button appearance="primary" type="button" arrow="right">
         Button
@@ -37,25 +38,25 @@ export default function Home(): JSX.Element {
       </P>
 
       <p>
-          <Tag size="s" href="/photoshop" target="_blank">
-            Photoshop
-          </Tag>
-          <Tag size="s" color="green">
-            -10 000 ₽
-          </Tag>
-          <Tag color="grey">10</Tag>
-          <Tag color="red">hh.ru</Tag>
-          <Tag color="primary" size="s">
-            Работа в Photoshop
-          </Tag>
+        <Tag size="s" href="/photoshop" target="_blank">
+          Photoshop
+        </Tag>
+        <Tag size="s" color="green">
+          -10 000 ₽
+        </Tag>
+        <Tag color="grey">10</Tag>
+        <Tag color="red">hh.ru</Tag>
+        <Tag color="primary" size="s">
+          Работа в Photoshop
+        </Tag>
       </p>
 
       <div>
-        <Rating rating={rating} onRating={setRating} isEditable/>
+        <Rating rating={rating} onRating={setRating} isEditable />
       </div>
       <div>
-        <Rating rating={3}/>
+        <Rating rating={3} />
       </div>
-    </div>
+    </Layout>
   );
 }
