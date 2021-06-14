@@ -1,16 +1,25 @@
 import React from 'react';
+import { GetStaticProps } from 'next';
+import axios from 'axios';
+
 import Button from '../components/Button';
 import Htag from '../components/Htag';
 import P from '../components/P';
 import Tag from '../components/Tag';
 import Rating from '../components/Rating';
-import Layout from '../layout';
+import { withLayout } from '../layout';
+import { IMenuItem } from '../interfaces/menu.interface';
 
-export default function Home(): JSX.Element {
+interface HomeProps extends Record<string, unknown> {
+  menu: IMenuItem[];
+  firstCategory: number;
+}
+
+function Home(): JSX.Element {
   const [rating, setRating] = React.useState<number>(4);
 
   return (
-    <Layout>
+    <>
       <Htag tag="h1">Title</Htag>
       <Button appearance="primary" type="button" arrow="right">
         Button
@@ -57,6 +66,23 @@ export default function Home(): JSX.Element {
       <div>
         <Rating rating={3} />
       </div>
-    </Layout>
+    </>
   );
 }
+
+export default withLayout(Home);
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const firstCategory = 0;
+  const { data: menu } = await axios.post<IMenuItem[]>(
+    `${process.env.NEXT_PUBLIC_DOMAIN}/api/top-page/find`,
+    { firstCategory },
+  );
+
+  return {
+    props: {
+      firstCategory,
+      menu,
+    },
+  };
+};

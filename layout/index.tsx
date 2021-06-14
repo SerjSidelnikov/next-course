@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import Footer from './Footer';
 
 import { LayoutProps } from './types';
+import { AppContextProvider, IAppContext } from '../context/app.context';
 
 import classes from './Layout.module.css';
 
@@ -22,14 +23,16 @@ const Layout: React.FC<LayoutProps> = ({ children, ...props }) => {
   );
 };
 
-export const withLayout = <T extends Record<string, unknown>>(Component: FunctionComponent<T>) => {
+export const withLayout = <T extends Record<string, unknown> & IAppContext>(
+  Component: FunctionComponent<T>,
+) => {
   return function withLayoutWrapper(props: T): JSX.Element {
     return (
-      <Layout>
-        <Component {...props} />
-      </Layout>
+      <AppContextProvider menu={props.menu} firstCategory={props.firstCategory}>
+        <Layout>
+          <Component {...props} />
+        </Layout>
+      </AppContextProvider>
     );
   };
 };
-
-export default Layout;
