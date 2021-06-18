@@ -73,6 +73,7 @@
   line-height: 14px;
 }
 
-.thirdLink:hover {
+.thirdLink:hover,
+.thirdLink.active {
   color: var(--primary);
 }

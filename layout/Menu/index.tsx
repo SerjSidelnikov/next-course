@@ -1,4 +1,6 @@
 import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import cn from 'classnames';
 
 import CoursesIcon from './icons/courses.svg';
@@ -20,38 +22,64 @@ const firstLevelMenu: FirstLevelMenuItem[] = [
 ];
 
 const Menu: React.FC = () => {
+  const router = useRouter();
+
   const { menu, firstCategory, setMenu } = React.useContext(AppContext);
+
+  const handleClickOpenThirdMenu = (category: string) => () => {
+    console.log('click');
+    if (setMenu) {
+      setMenu(
+        menu.map((m) => {
+          if (m._id.secondCategory === category) {
+            m.isOpened = !m.isOpened;
+          }
+          return m;
+        }),
+      );
+    }
+  };
 
   const buildFirstLevel = () => {
     return (
       <ul className={cn(classes.list, classes.firstList)}>
         {firstLevelMenu.map((m) => (
           <li key={m.route}>
-            <a
-              href={`/${m.route}`}
-              className={cn(classes.link, classes.firstLink, {
-                [classes.active]: m.id === firstCategory,
-              })}>
-              {m.icon}
-              <span>{m.name}</span>
-            </a>
+            <Link href={`/${m.route}`}>
+              <a
+                className={cn(classes.link, classes.firstLink, {
+                  [classes.active]: m.id === firstCategory,
+                })}>
+                {m.icon}
+                <span>{m.name}</span>
+              </a>
+            </Link>
 
-            {m.id === firstCategory && buildSecondLevel(m.route, m.id === firstCategory)}
+            {m.id === firstCategory && buildSecondLevel(m.route)}
           </li>
         ))}
       </ul>
     );
   };
 
-  const buildSecondLevel = (route: string, isOpened: boolean) => {
+  const buildSecondLevel = (route: string) => {
     return (
-      <ul className={cn(classes.list, classes.secondList, { [classes.open]: isOpened })}>
-        {menu.map((m) => (
-          <li key={m._id.secondCategory}>
-            <span className={classes.secondLink}>{m._id.secondCategory}</span>
-            {buildThirdLevel(m.pages, route)}
-          </li>
-        ))}
+      <ul className={cn(classes.list, classes.secondList)}>
+        {menu.map((m) => {
+          const currentRoute = router.asPath.split('/')[2];
+          const isShow = m.pages.map((p) => p.alias).includes(currentRoute) || m.isOpened;
+
+          return (
+            <li key={m._id.secondCategory}>
+              <span
+                className={classes.secondLink}
+                onClick={handleClickOpenThirdMenu(m._id.secondCategory)}>
+                {m._id.secondCategory}
+              </span>
+              {isShow && buildThirdLevel(m.pages, route)}
+            </li>
+          );
+        })}
       </ul>
     );
   };
@@ -61,9 +89,14 @@ const Menu: React.FC = () => {
       <ul className={cn(classes.list, classes.thirdList)}>
         {pages.map((p) => (
           <li key={p._id}>
-            <a href={`/${route}/${p.alias}`} className={classes.thirdLink}>
-              {p.category}
-            </a>
+            <Link href={`/${route}/${p.alias}`}>
+              <a
+                className={cn(classes.thirdLink, {
+                  [classes.active]: `/${route}/${p.alias}` === router.asPath,
+                })}>
+                {p.category}
+              </a>
+            </Link>
           </li>
         ))}
       </ul>
